@@ -53,10 +53,12 @@ El problema es el “peso del modelo”, tiene tantos parámetros (incluso la ve
 Se intentó también reducir el tiempo haciendo el modelo solo para una voz (con fine-tunning), pero tanto en Colab como en Kaggle los tiempos no son suficientes como para completar el entrenamiento.
 
 [Notebook](https://colab.research.google.com/drive/1v56S5mxD1bUjv21ndzFOqXQgONc6Uo7n?usp=sharing)
+
 **Resultado**
-<audio controls>
-  <source src="./ejemplos/qwen3.wav" type="audio/wav">
-</audio>
+
+  <video controls width="300" height="50">
+    <source src="ejemplos/qwen3.wav" type="audio/wav">
+  </video>
 ---
 
 ### PipperTTS
@@ -71,10 +73,12 @@ El problema apareció al finalizar, ya que al presentar baja cantidad de paráme
 Durante las pruebas se notó que cada **“eppoch” tarda 26s en Kaggle con GPU P100 (~7h por cada 1000 eppochs)**, un modelo completo y funcional requiere hasta **10000 eppochs (~70h)**.
 
 [Notebook](https://www.kaggle.com/code/luissantiagobr/pipertts)
+
 **Resultado**
-<audio controls>
-  <source src="./ejemplos/pipper.wav" type="audio/wav">
-</audio>
+
+  <video controls width="300" height="50">
+    <source src="ejemplos/pipper.wav" type="audio/wav">
+  </video>
 ---
 
 ### coquiTTS con XTTSv2
@@ -101,9 +105,11 @@ El tiempo para generar un audio de **7s** (misma entrada que Qwen3) con **GPU es
 [Notebook](https://www.kaggle.com/code/luissantiagobr/coquitts-gpu)
 
 **Resultado**
-<audio controls>
-  <source src="./ejemplos/xttsv2.wav" type="audio/wav">
-</audio>
+
+  <video controls width="300" height="50">
+    <source src="ejemplos/xttsv2.wav" type="audio/wav">
+  </video>
+
 ---
 
 ## Comparación
