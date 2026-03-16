@@ -57,7 +57,7 @@ Se intentó también reducir el tiempo haciendo el modelo solo para una voz (con
 **Resultado**
 
   <video controls width="300" height="50">
-    <source src="ejemplos/qwen3.wav" type="audio/wav">
+    <source src="ejemplos/convertidos/qwen3.mp4" type="audio/mp4">
   </video>
 ---
 
@@ -77,7 +77,7 @@ Durante las pruebas se notó que cada **“eppoch” tarda 26s en Kaggle con GPU
 **Resultado**
 
   <video controls width="300" height="50">
-    <source src="ejemplos/pipper.wav" type="audio/wav">
+    <source src="ejemplos/convertidos/pipper.mp4" type="audio/mp4">
   </video>
 ---
 
@@ -107,7 +107,7 @@ El tiempo para generar un audio de **7s** (misma entrada que Qwen3) con **GPU es
 **Resultado**
 
   <video controls width="300" height="50">
-    <source src="ejemplos/xttsv2.wav" type="audio/wav">
+    <source src="ejemplos/convertidos/xttsv2.mp4" type="audio/mp4">
   </video>
 
 ---
