@@ -94,7 +94,7 @@ El modelo en sí es un clonador de voz, o sea que funciona sin el entrenamiento,
 
 El principal problema hallado es la necesidad mayor calidad, se cree que es posible resolverlo con un entrenamiento de al menos 10h, sin embargo, como se puede observar en el notebook, lo obtenido es relativamente consistente.
 
-Por otro lado, un inconveniente es la cantidad de palabras, en sí el modelo está “bloqueado” a 259 palabras en español (aumentable manualmente desde el archivo ``), sin embargo, la razón de esto es que suele fallar tras este límite, por lo que textos largos deberían ser producidos a trozos.
+Por otro lado, un inconveniente es la cantidad de palabras, en sí el modelo está “bloqueado” a 239 palabras en español ([aumentable manualmente](https://github.com/coqui-ai/TTS/discussions/3197)), sin embargo, la razón de esto es que suele fallar tras este límite, por lo que textos largos deberían ser producidos a trozos.
 
 Sobre la salida, se intentó obtenerla en streaming pero al ser entornos en la nube no fue posible, además se presentaron problemas de incompatibilidad con algunas dependencias del proyecto. Si se obtuvo una salida en un archivo formato `.wav` con muestreo de **24kHz**.
 
