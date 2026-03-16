@@ -56,9 +56,8 @@ Se intentó también reducir el tiempo haciendo el modelo solo para una voz (con
 
 **Resultado**
 
-  <video controls width="300" height="50">
-    <source src="ejemplos/convertidos/qwen3.mp4">
-  </video>
+https://github.com/user-attachments/assets/365c9859-d89f-463c-a75e-3d49b2034c39
+
 ---
 
 ### PipperTTS
@@ -76,9 +75,8 @@ Durante las pruebas se notó que cada **“eppoch” tarda 26s en Kaggle con GPU
 
 **Resultado**
 
-  <video controls width="300" height="50">
-    <source src="ejemplos/convertidos/pipper.mp4">
-  </video>
+https://github.com/user-attachments/assets/7c4484a7-b363-4217-aa20-be715470971e
+
 ---
 
 ### coquiTTS con XTTSv2
@@ -106,9 +104,7 @@ El tiempo para generar un audio de **7s** (misma entrada que Qwen3) con **GPU es
 
 **Resultado**
 
-  <video controls width="300" height="50">
-    <source src="ejemplos/convertidos/xttsv2.mp4">
-  </video>
+https://github.com/user-attachments/assets/30dacc52-f17f-4317-8dd6-410717f7d188
 
 ---
 
