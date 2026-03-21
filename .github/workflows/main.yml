@@ -1,24 +1,20 @@
-name: Compilar LaTeX
+name: Build LaTeX document
 on:
   push:
     paths:
       - 'coquiTTS_Kaggle/latex/**'
 jobs:
-  build:
+  build_latex:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Clonar repositorio
-        uses: actions/checkout@v3
-
-      - name: Compilar LaTeX
-        uses: xu-cheng/latex-action@v2
+      - name: Set up Git repository
+        uses: actions/checkout@v6
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v4
         with:
           root_file: main.tex
-          working_directory: coquiTTS_Kaggle/latex
-          
-      - name: Crear PDF
-        uses: actions/upload-artifact@v4
+      - name: Upload PDF file
+        uses: actions/upload-artifact@v6
         with:
-          name: pdf
-          path: coquiTTS_Kaggle/latex/*.pdf
+          name: PDF
+          path: coquiTTS_Kaggle/latex/main.pdf
