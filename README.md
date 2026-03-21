@@ -104,7 +104,7 @@ El tiempo para generar un audio de **7s** (misma entrada que Qwen3) con **GPU es
 
 **Resultado**
 
-https://github.com/user-attachments/assets/c411e8b2-c2d3-452a-9c3f-34d3b8269e3b
+https://github.com/user-attachments/assets/b79c4294-0977-4071-9919-ff9b9cb404cc
 
 ---
 
