@@ -1,8 +1,11 @@
 import os
+import sys
 import torch
 import torchaudio
 from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
+
+sys.path.append("RUTA_REPOSITORIO_ORIGINAL_MODELO")
 
 # Add here the xtts_config path
 CONFIG_PATH = "/kaggle/working/run/training/.../config.json"
