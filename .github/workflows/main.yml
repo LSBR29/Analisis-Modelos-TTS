@@ -12,7 +12,7 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v4
         with:
-          root_file: main.tex
+          root_file: coquiTTS_Kaggle/latex/main.tex
       - name: Upload PDF file
         uses: actions/upload-artifact@v6
         with:
