@@ -16,9 +16,9 @@ Tras una búsqueda se optó por Kaggle, igualmente con un plan gratuito, pero qu
 
 ## Modelos probados
 
-De los siguientes modelos mencionados, en ninguno fue posible obtener resultados consistentes, ya sea por dificultades en la instalación, fallas en los entrenamientos, en la generación de voz o resultados incoherentes.
+De los siguientes modelos mencionados, en ninguno fue posible obtener resultados totalmente consistentes, ya sea por dificultades en la instalación, fallas en los entrenamientos, en la generación de voz o resultados incoherentes.
 
-Cabe mencionar que todos fueron probados con el mismo dataset de voz seleccionado aleatoriamente del repositorio del TCU: [2024-SSV-002](https://6f33fa7f78ea46e2aaca.sharepoint.com/:f:/s/TCU-748/IgDV5L2k2jplSIVw6qpaaSx1Ab7Cyao3Zh0hUZkrJj5ywik?e=g7l3Q9). Todos en formato `.wav` con frecuencia de muestreo de **32kHz**, y transcripción en `.txt` con encoding **windows-1252**.
+Cabe mencionar que todos los modelos fueron probados con el mismo dataset de voz seleccionado aleatoriamente del repositorio del TCU. Los audios se encontraban en formato `.wav` con frecuencia de muestreo de **32kHz**, y transcripción en `.txt` con encoding **windows-1252**.
 
 ---
 
@@ -100,7 +100,7 @@ Sobre la salida, se intentó obtenerla en streaming pero al ser entornos en la n
 
 El tiempo para generar un audio de **7s** (misma entrada que Qwen3) con **GPU es de ~5s** y con **CPU ~28s**.
 
-[Notebook](https://www.kaggle.com/code/luissantiagobr/coquitts-gpu)
+[Notebook](https://www.kaggle.com/code/luissantiagobr/coquitts)
 
 **Resultado**
 
