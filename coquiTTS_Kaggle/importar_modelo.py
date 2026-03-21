@@ -1,11 +1,11 @@
-import os
 import sys
+sys.path.append("RUTA_REPOSITORIO_ORIGINAL_MODELO")
+
+import os
 import torch
 import torchaudio
 from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
-
-sys.path.append("RUTA_REPOSITORIO_ORIGINAL_MODELO")
 
 # Add here the xtts_config path
 CONFIG_PATH = "/kaggle/working/run/training/.../config.json"
@@ -15,8 +15,6 @@ TOKENIZER_PATH = "/kaggle/working/run/training/.../vocab.json"
 XTTS_CHECKPOINT = "/kaggle/working/run/training/.../best_model_....pth"
 # Add here the speaker reference
 SPEAKER_REFERENCE = ["/kaggle/working/dataset/wavs/REFERENCIA.wav"]
-# output wav path
-OUTPUT_WAV_PATH = "/kaggle/working/out.wav"
 
 print("Loading model...")
 config = XttsConfig()

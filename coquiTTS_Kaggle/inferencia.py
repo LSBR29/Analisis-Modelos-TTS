@@ -1,4 +1,6 @@
 text = """¡Hola!, esta es una voz artificial con el modelo de texto a voz entrenado para el t c u 748."""
+# output wav path
+OUTPUT_WAV_PATH = "/kaggle/working/out.wav"
 
 print("Inference...")
 out = model.inference(
