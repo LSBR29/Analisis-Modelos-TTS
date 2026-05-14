@@ -4,12 +4,12 @@
     \input{setup/encabezado.tex}
 
     \section{Uso de XTTSv2 en Kaggle}
-    Para utilizar este TTS puede seguir los pasos en este documento o copiar el \href{https://www.kaggle.com/code/luissantiagobr/coquitts}{Notebook} directamente y editar las secciones necesarias como se indicará posteriormente.
+    Para utilizar este TTS puede seguir los pasos en este documento o copiar el \href{https://www.kaggle.com/code/luissantiagobr/plantilla-xtts-coqui}{Notebook} directamente y editar las secciones necesarias como se indicará posteriormente.
     
     \subsection{Creación de un Notebook en Kaggle}
     Se utilizará Kaggle como entorno en la nube para entrenar/generar el modelo TTS ya que con el plan gratuito ofrece 30h semanales de uso en GPUs (2xT4 y P100) y persistencia en el almacenamiento (20GB).
 
-    Para crear una cuenta puede dirigirse a la página oficial \href{https://www.kaggle.com}{Kaggle} y registrarse con sus datos.
+    Para crear una cuenta puede dirigirse a la página oficial \href{https://www.kaggle.com}{Kaggle} y registrarse con sus datos. Es necesario que introduzca su número de teléfono para poder acceder a las GPUs de Kaggle, ya que se necesitan para poder entrenar los modelos de voz.
 
     Una vez iniciada la sesión, desde la opción \textit{Create} (Figura \ref{fig:create}) puede abrir un Notebook nuevo que contendrá un celda por defecto como se observa en la Figura \ref{fig:notebook}
     \begin{figure}[h!]
@@ -123,6 +123,10 @@
     \textit{Importante:} Se debe modificar la ruta en la variable \texttt{SPEAKER\_REFERENCE} por una grabación existente en el dataset que está utilizando y debe establecer la transcripción de este audio en el parámetro \texttt{test\_sentences} de la variable \texttt{config} en la función \texttt{main()}:
 
     \begin{minted}[frame=lines, framesep=2mm, fontsize=\small]{python}
+        SPEAKER_REFERENCE = SPEAKER_REFERENCE = [
+            "RUTA_REFERENCIA"
+        ]
+        ...
         def main():
             ...
             config = GPTTrainerConfig(
@@ -181,4 +185,136 @@
     
     \bibliographystyle{IEEEtran}
     \bibliography{biblio}
+
+    \newpage
+    \section{Anexos}
+
+
+%----------%-------------%-------------%------------%-----------%---------%---------%--------%
+    \subsection{Errores comunes entrenando voces con XTTS en Kaggle}
+    
+    %-----------------------------------------------
+    \subsubsection{Error de memoria insuficiente}
+
+    Un error que puede suceder es que no se haya seleccionado la GPU como acelerador del notebook, por lo tanto, se llena la memoria y por ende, correrá por unas horas antes de fallar. Como consecuencia, se obtiene una pestaña del notebook en la sección de \textit{Logs} similar a la mostrada en la figura \ref{fig:pestaña logs sin acelerador}, donde se logra apreciar el error de memoria insuficiente y que no se eligió un acelerador.
+
+        \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\linewidth]{img_anexo/error al correr con solo cpu.png}
+        \caption{Pestaña de \textit{Logs} del notebook de Kaggle - Error de memoria.}
+        \label{fig:pestaña logs sin acelerador}
+    \end{figure}
+    
+    
+    Para evitar este problema, debe asegurarse de haber seleccionado la GPU como acelerador antes de correr el notebook. Para comprobar que se está ejecutando con una GPU, puede dirigirse a la pestaña de \textit{Logs} del notebook, como se observa en la figura \ref{fig:pestaña logs}, y ver si se tiene un acelerador escogido.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\linewidth]{img_anexo/correr con gpu.png}
+        \caption{Pestaña de \textit{Logs} del notebook de Kaggle.}
+        \label{fig:pestaña logs}
+    \end{figure}
+
+
+%-------------------------------------------------
+\subsubsection{Error en organización del metadata.csv}
+
+En ocasiones, la transcripción obtenida de la base de datos de voces del TCU, puede generar fallas durante la realización del archivo de metadata.csv. Este error puede suceder porque el archivo .txt de donde se transcribió el audio, tiene varias líneas de más o no cumplía un formato adecuado para realizar el metadata.csv. Por lo tanto, puede correr el siguiente código, para corregir el archivo metadata.csv obtenido:
+
+    \begin{minted}[frame=lines, framesep=2mm,  fontsize=\scriptsize]{python}
+import os
+
+# Configuración de rutas
+input_csv = "/kaggle/working/dataset/metadata.csv"
+output_csv = "/kaggle/working/dataset/metadata_reorganized.csv"
+
+def reorganize_metadata(input_path, output_path):
+    with open(input_path, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+
+    reorganized = []
+    current_entry = ""
+
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+
+        # Detecta si la línea es el inicio de un registro nuevo
+        # Busca el patrón: ID|Texto (usualmente empieza por 'voluntario' o tiene un '_')
+        if "|" in line and (line.split("|")[0].startswith("voluntario") or "_" in line.split("|")[0]):
+            # Si ya tenía un registro acumulado, lo guarda antes de empezar el siguiente
+            if current_entry:
+                reorganized.append(current_entry)
+            current_entry = line
+        else:
+            # Si no empieza con el formato de audio, es texto huérfano. 
+            # Se pega al texto de la entrada actual (antes del segundo '|')
+            if current_entry:
+                parts = current_entry.split("|")
+                # Une el fragmento extra al primer bloque de texto
+                parts[1] = parts[1].strip() + " " + line
+                # Reconstruye la línea (formato 3 columnas: ID|Texto|Texto)
+                current_entry = f"{parts[0]}|{parts[1]}|{parts[1]}"
+
+    # Guardar la última entrada
+    if current_entry:
+        reorganized.append(current_entry)
+
+    # Escribir el archivo final limpio
+    with open(output_path, "w", encoding="utf-8") as f:
+        for entry in reorganized:
+            f.write(entry + "\n")
+
+    # Reemplazar el original para que el script de entrenamiento lo tome automáticamente
+    os.replace(output_path, input_path)
+    print(f"Reorganización completada. Se generaron {len(reorganized)} registros válidos.")
+
+# Ejecutar
+reorganize_metadata(input_csv, output_csv)
+
+# Verificación
+print("\n--- Primeras líneas reorganizadas ---")
+!head -n 5 /kaggle/working/dataset/metadata.csv
+    \end{minted}
+
+\textit{Nota:} es posible que, depende de cómo se nombre los archivos .wavs, se deba modificar la línea de código donde se busca el patrón ID | Texto, el cuál se realiza mediante un \texttt{if}. 
+
+%-----------------------------------------
+\subsubsection{Error por poca cantidad de muestras disponibles}
+Este error ocurre porque la cantidad de muestras de audio disponibles para realizar el entrenamiento del modelo de voz, es insuficiente según el número de grabaciones que tiene por defecto el archivo de finetunning.py. El error que aparece en la terminal, indica lo siguiente:
+
+\begin{minted}[frame=lines, framesep=2mm,  fontsize=\footnotesize]{bash}
+AssertionError: [!] You do not have enough samples for the evaluation set. You can work 
+around this setting the 'eval_split_size' parameter to a minimum of 0.04
+    \end{minted}
+
+Para arreglar la falla, hay que dirigirse a la sección que crea el archivo para entrenar (finetunning.py) y en la parte de \textit{training parameters config} donde se encuentra la variable \texttt{config}, agregar \texttt{eval\_split\_size}, cuyo valor puede ser indicado con porcentaje o un número entero. A continuación se presenta un ejemplo:
+
+    \begin{minted}[frame=lines, framesep=2mm,  fontsize=\footnotesize]{python}
+    ...
+ config = GPTTrainerConfig(
+        output_path=OUT_PATH,
+        model_args=model_args,
+        run_name=RUN_NAME,
+        project_name=PROJECT_NAME,
+        run_description="""
+            GPT XTTS training
+            """,
+        dashboard_logger=DASHBOARD_LOGGER,
+        logger_uri=LOGGER_URI,
+        audio=audio_config,
+        batch_size=BATCH_SIZE,
+        batch_group_size=48,
+        eval_batch_size=BATCH_SIZE,
+        num_loader_workers=4,
+        eval_split_max_size=256,
+        eval_split_size=2,
+    ...
+    \end{minted}
+
+Para la variable \texttt{eval\_split\_size}, si se coloca un valor de porcentaje, se referirá a una cantidad de las muestras disponibles, por ejemplo, $0.04$ sería el $4$ \% de la cantidad total de grabaciones. Por otro lado, si se coloca un número entero, por ejemplo, $2$, utilizará 2 muestras de audio para evaluar el modelo de voz durante el entrenamiento. 
+
+
+    
 \end{document}
